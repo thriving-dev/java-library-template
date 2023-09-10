@@ -1,0 +1,15 @@
+name: ">> Scheduled Code Analysis"
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '23 1 * * 6' # weekly, on Saturday at 01:23 UTC
+
+jobs:
+  code_analysis:
+    name: Code Analysis (multi)
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    uses: ./.github/workflows/callable.code-analysis.yml
