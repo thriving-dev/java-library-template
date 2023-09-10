@@ -18,6 +18,11 @@ on:
         required: true
         default: 'org.acme.fancy.lib'
         type: string
+      email:
+        description: 'Contact email (CONTRIBUTING.md)'
+        required: true
+        default: 'info@yourdomain.com'
+        type: string
 
 jobs:
   migrate_repo_template:
@@ -72,6 +77,7 @@ jobs:
           ARTIFACT_NAME_NEW: ${{ inputs.name }}
           PACKAGE_OLD: "dev.thriving.oss.java.library.template"
           PACKAGE_NEW: ${{ inputs.package }}
+          INPUT_EMAIL: ${{ inputs.email }}
         run: |
           echo "GITHUB_REPOSITORY_OLD: $GITHUB_REPOSITORY_OLD"
           echo "GITHUB_REPOSITORY_NAME: $GITHUB_REPOSITORY_NAME"
@@ -98,6 +104,7 @@ jobs:
           sed -i "s@developerId = \"hartmut-co-uk\"@developerId = \"$GITHUB_ACTOR\"@g" java-library-template/build.gradle.kts
           sed -i "s@developerName = \"Hartmut Armbruster\"@developerName = \"Your Name\"@g" java-library-template/build.gradle.kts
           sed -i "s@developerOrganization = \"thriving.dev\"@developerOrganization = \"ACME Corporation\"@g" java-library-template/build.gradle.kts
+          sed -i "s@developerOrganizationUrl = \"https://thriving.dev\"@developerOrganizationUrl = \"https://yourdomain.com\"@g" java-library-template/build.gradle.kts
           
           # gradle module 'java-library-template'
           ## rename base folder
@@ -134,6 +141,7 @@ jobs:
           # CONTRIBUTING
           sed -i "s@$GITHUB_REPOSITORY_OLD@$GITHUB_REPOSITORY@g" CONTRIBUTING.md
           sed -i "s@$ARTIFACT_NAME_OLD@$GITHUB_REPOSITORY_NAME@g" CONTRIBUTING.md
+          sed -i "s/info@thriving.dev/$INPUT_EMAIL/g" CONTRIBUTING.md
           
           # cleanup this very GitHub Actions workflow yml
           rm .github/workflows/0.initial.migrate-repo-template.yml

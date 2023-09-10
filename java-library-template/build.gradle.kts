@@ -10,7 +10,7 @@ object Meta {
     const val developerId = "hartmut-co-uk"
     const val developerName = "Hartmut Armbruster"
     const val developerOrganization = "thriving.dev"
-    const val developerOrganizationUrl = "https://thriving.dev/"
+    const val developerOrganizationUrl = "https://thriving.dev"
 }
 
 plugins {
