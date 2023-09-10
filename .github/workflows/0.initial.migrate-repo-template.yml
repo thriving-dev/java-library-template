@@ -1,0 +1,152 @@
+name: "!! INITIAL: Migrate Repo Template !!"
+
+on:
+  workflow_dispatch:
+    inputs:
+      group:
+        description: 'Artifact groupId'
+        required: true
+        default: 'org.acme'
+        type: string
+      name:
+        description: 'Artifact artifactId (recommended to align with repo name)'
+        required: true
+        default: 'fancy-library-name'
+        type: string
+      package:
+        description: 'Artifact package'
+        required: true
+        default: 'org.acme.fancy.lib'
+        type: string
+
+jobs:
+  migrate_repo_template:
+    name: Run Migration
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    if: github.repository != 'thriving-dev/java-library-template'
+    steps:
+
+      - name: Validate input param 'group'
+        env:
+          INPUT_PARAM: ${{ inputs.group }}
+        run: |
+          if [[ ! $INPUT_PARAM =~ ^[a-z0-9]([._]?[a-z0-9]+)*$ ]]; then
+            echo "Invalid value for 'group' param: $INPUT_PARAM"
+            echo "Must be all lowercase, no whitespaces, no special characters but underscore and dots, no consecutive dots."
+            exit 1
+          fi
+      - name: Validate input param 'name'
+        env:
+          INPUT_PARAM: ${{ inputs.name }}
+        run: |
+          if [[ ! $INPUT_PARAM =~ ^[a-z0-9]([_-]?[a-z0-9]+)*$ ]]; then
+            echo "Invalid value for 'name': $INPUT_PARAM"
+            echo "Must be all lowercase, no whitespaces, no special characters but '-', no leading or consecutive dashes."
+            exit 1
+          fi
+      - name: Validate input param 'package'
+        env:
+          INPUT_PARAM: ${{ inputs.package }}
+        run: |
+          if [[ ! $INPUT_PARAM =~ ^[a-z_]([._]?[a-z_][a-z0-9_]*)*$ ]]; then
+            echo "Invalid value for 'package': $INPUT_PARAM"
+            echo "Must conform to all lowercase, no whitespaces, no special characters but underscore, separated by dots, no consecutive dots, no element beginning with a number."
+            exit 1
+          fi
+
+      - name: Checkout project sources
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          token: ${{ secrets.CI_GITHUB_TOKEN }}
+
+      - name: Migrate
+        env:
+          GITHUB_REPOSITORY_OLD: "thriving-dev/java-library-template"
+          GITHUB_REPOSITORY_NAME: ${{ github.event.repository.name }}
+          ARTIFACT_GROUP_OLD: "dev.thriving.oss"
+          ARTIFACT_GROUP_NEW: ${{ inputs.group }}
+          ARTIFACT_NAME_OLD: "java-library-template"
+          ARTIFACT_NAME_NEW: ${{ inputs.name }}
+          PACKAGE_OLD: "dev.thriving.oss.java.library.template"
+          PACKAGE_NEW: ${{ inputs.package }}
+        run: |
+          echo "GITHUB_REPOSITORY_OLD: $GITHUB_REPOSITORY_OLD"
+          echo "GITHUB_REPOSITORY_NAME: $GITHUB_REPOSITORY_NAME"
+          echo "ARTIFACT_GROUP_OLD: $ARTIFACT_GROUP_OLD"
+          echo "ARTIFACT_GROUP_NEW: $ARTIFACT_GROUP_NEW"
+          echo "ARTIFACT_NAME_OLD: $ARTIFACT_NAME_OLD"
+          echo "ARTIFACT_NAME_NEW: $ARTIFACT_NAME_NEW"
+          echo "PACKAGE_OLD: $PACKAGE_OLD"
+          echo "PACKAGE_NEW: $PACKAGE_NEW"
+          
+          # gradle files
+          ## gradle.properties - initial version 
+          echo "version=0.0.1-SNAPSHOT" > gradle.properties
+          
+          ## build.gradle.kts
+          sed -i "s/group = \"$ARTIFACT_GROUP_OLD\"/group = \"$ARTIFACT_GROUP_NEW\"/g" build.gradle.kts
+          
+          ## settings.gradle.kts
+          sed -i "s/$ARTIFACT_NAME_OLD/$ARTIFACT_NAME_NEW/g" settings.gradle.kts
+          
+          ## java-library-template/build.gradle.kts
+          sed -i "s@group = \"$ARTIFACT_GROUP_OLD\"@group = \"$ARTIFACT_GROUP_NEW\"@g" java-library-template/build.gradle.kts
+          sed -i "s@githubRepo = \"$GITHUB_REPOSITORY_OLD\"@githubRepo = \"$GITHUB_REPOSITORY\"@g" java-library-template/build.gradle.kts
+          sed -i "s@developerId = \"hartmut-co-uk\"@developerId = \"$GITHUB_ACTOR\"@g" java-library-template/build.gradle.kts
+          sed -i "s@developerName = \"Hartmut Armbruster\"@developerName = \"Your Name\"@g" java-library-template/build.gradle.kts
+          sed -i "s@developerOrganization = \"thriving.dev\"@developerOrganization = \"ACME Corporation\"@g" java-library-template/build.gradle.kts
+          
+          # gradle module 'java-library-template'
+          ## rename base folder
+          mv $ARTIFACT_NAME_OLD $ARTIFACT_NAME_NEW
+          
+          ## move files for all srcset to new package name path structure 
+          PACKAGE_PATH_OLD=$(echo "$PACKAGE_OLD" | tr "." "/")
+          PACKAGE_PATH_NEW=$(echo "$PACKAGE_NEW" | tr "." "/")
+          for srcset in intTest main test
+          do 
+            mkdir -p "$ARTIFACT_NAME_NEW/src/$srcset/java/$PACKAGE_PATH_NEW"
+            mv "$ARTIFACT_NAME_NEW/src/$srcset/java/$PACKAGE_PATH_OLD" "$ARTIFACT_NAME_NEW/src/$srcset/java/$PACKAGE_PATH_NEW"
+          done
+          
+          ## replace package name in java files
+          #find $ARTIFACT_NAME_NEW -type f -name "*.java" -print0 | xargs -0 sed -i '' -e "s@$PACKAGE_OLD@$PACKAGE_NEW@g"
+          #find $ARTIFACT_NAME_NEW -type f -name "*.java" -print0 | xargs -0 sed -i '' -e "s@$PACKAGE_OLD@$PACKAGE_NEW@g"
+          find $ARTIFACT_NAME_NEW -type f -name "*.java"  -exec sed -i'' -e "s@$PACKAGE_OLD@$PACKAGE_NEW@g" {} +
+
+          # GitHub actions
+          sed -i "s/$ARTIFACT_NAME_OLD/$ARTIFACT_NAME_NEW/g" .github/workflows/callable.publish-javadoc.yml
+          
+          # README from template
+          mv -f .github/template/README.md README.md
+          rm -Rf .github/template/
+          sed -i "s@%ARTIFACT_GROUP%@$ARTIFACT_GROUP_NEW@g" README.md
+          sed -i "s@%ARTIFACT_NAME%@$ARTIFACT_NAME_NEW@g" README.md
+          sed -i "s@%REPO_OWNER%@$GITHUB_REPOSITORY_OWNER@g" README.md
+          sed -i "s@%REPO_NAME%@$GITHUB_REPOSITORY_NAME@g" README.md
+          
+          # CHANGELOG
+          sed -i "s@$GITHUB_REPOSITORY_OLD@$GITHUB_REPOSITORY@g" CHANGELOG.md
+          
+          # CONTRIBUTING
+          sed -i "s@$GITHUB_REPOSITORY_OLD@$GITHUB_REPOSITORY@g" CONTRIBUTING.md
+          sed -i "s@$ARTIFACT_NAME_OLD@$GITHUB_REPOSITORY_NAME@g" CONTRIBUTING.md
+          
+          # cleanup this very GitHub Actions workflow yml
+          rm .github/workflows/0.initial.migrate-repo-template.yml
+
+      - name: Commit files
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          git status
+          git commit -m "chore: INITIAL Migrate Repo Template"
+
+      # Push changes
+      - name: Push changes
+        run: |
+          git push origin main
