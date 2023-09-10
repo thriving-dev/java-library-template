@@ -1,0 +1,2 @@
+# gradle locking of dependency versions *required+used for trivy scan only, so do not add to source control
+gradle.lockfile
