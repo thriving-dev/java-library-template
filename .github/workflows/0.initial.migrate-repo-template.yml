@@ -19,7 +19,7 @@ on:
         default: 'org.acme.fancy.lib'
         type: string
       email:
-        description: 'Contact email (CONTRIBUTING.md)'
+        description: 'Contact email (CODE_OF_CONDUCT.md)'
         required: true
         default: 'info@yourdomain.com'
         type: string
@@ -141,7 +141,9 @@ jobs:
           # CONTRIBUTING
           sed -i "s@$GITHUB_REPOSITORY_OLD@$GITHUB_REPOSITORY@g" CONTRIBUTING.md
           sed -i "s@$ARTIFACT_NAME_OLD@$GITHUB_REPOSITORY_NAME@g" CONTRIBUTING.md
-          sed -i "s/info@thriving.dev/$INPUT_EMAIL/g" CONTRIBUTING.md
+          
+          # CODE_OF_CONDUCT
+          sed -i "s/info@thriving.dev/$INPUT_EMAIL/g" CODE_OF_CONDUCT.md
           
           # cleanup this very GitHub Actions workflow yml
           rm .github/workflows/0.initial.migrate-repo-template.yml
