@@ -77,3 +77,6 @@ jobs:
       contents: write
     uses: ./.github/workflows/callable.publish-javadoc.yml
     needs: integration_test
+    if: |
+      github.ref == 'refs/heads/main' 
+      || github.ref_type == 'tag' 
