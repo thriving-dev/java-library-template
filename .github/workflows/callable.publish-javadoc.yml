@@ -1,14 +1,100 @@
 name: Deploy Javadoc
 
 on:
+  workflow_dispatch:
   workflow_call:
 
 jobs:
+  deploy_basics:
+    name: Build & deploy
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout project sources
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Conclude javadoc version and set env
+        run: |
+          if [[ "$GITHUB_REF" == "refs/heads/main" || "$GITHUB_REF" == "refs/heads/master" ]]; then
+            echo "PUBLISH_VERSION=current" >> $GITHUB_ENV
+          else
+            echo "PUBLISH_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+          fi
+
+      - name: Create root index redirect
+        env:
+          GITHUB_REPOSITORY_NAME: ${{ github.event.repository.name }}
+        run: |
+          echo "<!DOCTYPE html><html lang=en><meta content=\"text/html; charset=utf-8\"http-equiv=Content-Type><meta content=\"index redirect\"name=description><link href=/$GITHUB_REPOSITORY_NAME/javadoc/ rel=canonical><link href=stylesheet.css rel=stylesheet title=Style><script>window.location.replace(\"/$GITHUB_REPOSITORY_NAME/javadoc/\")</script><noscript><meta content=0;/$GITHUB_REPOSITORY_NAME/javadoc/ http-equiv=Refresh></noscript><main role=main><noscript><p>JavaScript is disabled on your browser.</p></noscript><p><a href=/$GITHUB_REPOSITORY_NAME/javadoc/ >/$GITHUB_REPOSITORY_NAME/javadoc/</a></main>" > index.html
+
+      - name: Create javadoc index.html listing versions
+        env:
+          PUBLISH_VERSION: ${{ env.PUBLISH_VERSION }}
+          GH_API_CONTENTS_URL: https://api.github.com/repos/${{ github.repository }}/contents/javadoc?ref=gh-pages
+          GITHUB_REPOSITORY_NAME: ${{ github.event.repository.name }}
+        run: |
+          mkdir -p javadoc
+          rm javadoc/index.html
+          touch javadoc/index.html
+          
+          #curl "$GH_API_CONTENTS_URL" | jq '.[].name' -r
+          versions=( $(curl "$GH_API_CONTENTS_URL" | jq -r "[.[] | select( .type == \"dir\" ) | .name] + [\"$PUBLISH_VERSION\"] | unique | .[]") )
+          
+          echo "versions:"
+          for value in "${versions[@]}"
+          do
+            echo "- $value"
+          done
+          
+          echo "<!DOCTYPE HTML>" >> javadoc/index.html
+          echo "<html lang=\"en\">" >> javadoc/index.html
+          echo "<head>" >> javadoc/index.html
+          echo "    <title>Javadoc | '$GITHUB_REPOSITORY_NAME'</title>" >> javadoc/index.html
+          echo "    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">" >> javadoc/index.html
+          echo "    <meta charset=\"UTF-8\">" >> javadoc/index.html
+          echo "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">" >> javadoc/index.html
+          echo "    <meta http-equiv=\"X-UA-Compatible\" content=\"ie=edge\">" >> javadoc/index.html
+          echo "    <meta name=\"description\" content=\"Javadoc for library '$GITHUB_REPOSITORY_NAME'\">" >> javadoc/index.html
+          echo "</head>" >> javadoc/index.html
+          echo "<body>" >> javadoc/index.html
+          echo "<main style=\"font-family: sans-serif;\">" >> javadoc/index.html
+          echo "    <h1>Javadoc</h1>" >> javadoc/index.html
+          echo "    <h2>Versions</h2>" >> javadoc/index.html
+          echo "    <ul>" >> javadoc/index.html
+          
+          for value in "${versions[@]}"
+          do
+            echo "        <li><a href=\"$value\">$value</a></li>" >> javadoc/index.html
+          done
+          
+          echo "    </ul>" >> javadoc/index.html
+          echo "</main>" >> javadoc/index.html
+          echo "</body>" >> javadoc/index.html
+          echo "</html>" >> javadoc/index.html
+
+      - name: Commit files
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          git status
+          git diff-index --quiet HEAD || git commit -m "chore: updates index.html files incl. javadoc versions"
+
+      # Push changes
+      - name: Push changes
+        run: |
+          git push
+
   deploy_javadoc:
     name: Build & deploy
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    needs: deploy_basics
 
     steps:
       - name: Checkout project sources
