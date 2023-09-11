@@ -34,10 +34,13 @@ jobs:
             echo "PUBLISH_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
           fi
 
+      - name: Conclude library name and set env
+        run: echo "LIBRARY_NAME=$(grep -o '^rootProject.name.*' settings.gradle.kts | sed -e 's/rootProject.name.*"\(.*\)"/\1/')" >> $GITHUB_ENV
+
       - name: Deploy to GitHub Page 🚀 with Gradle
         uses: JamesIves/github-pages-deploy-action@v4.4.3
         with:
           branch: gh-pages
           clean: true
-          folder: java-library-template/build/docs/javadoc
+          folder: ${{ env.LIBRARY_NAME }}/build/docs/javadoc
           target-folder: javadoc/${{ env.PUBLISH_VERSION }}

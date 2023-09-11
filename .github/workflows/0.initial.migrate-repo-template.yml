@@ -77,15 +77,6 @@ jobs:
           PACKAGE_NEW: ${{ inputs.package }}
           INPUT_EMAIL: ${{ inputs.email }}
         run: |
-          echo "GITHUB_REPOSITORY_OLD: $GITHUB_REPOSITORY_OLD"
-          echo "GITHUB_REPOSITORY_NAME: $GITHUB_REPOSITORY_NAME"
-          echo "ARTIFACT_GROUP_OLD: $ARTIFACT_GROUP_OLD"
-          echo "ARTIFACT_GROUP_NEW: $ARTIFACT_GROUP_NEW"
-          echo "ARTIFACT_NAME_OLD: $ARTIFACT_NAME_OLD"
-          echo "ARTIFACT_NAME_NEW: $ARTIFACT_NAME_NEW"
-          echo "PACKAGE_OLD: $PACKAGE_OLD"
-          echo "PACKAGE_NEW: $PACKAGE_NEW"
-          
           # gradle files
           ## gradle.properties - initial version 
           echo "version=0.0.1-SNAPSHOT" > gradle.properties
@@ -122,9 +113,6 @@ jobs:
           #find $ARTIFACT_NAME_NEW -type f -name "*.java" -print0 | xargs -0 sed -i '' -e "s@$PACKAGE_OLD@$PACKAGE_NEW@g"
           find $ARTIFACT_NAME_NEW -type f -name "*.java"  -exec sed -i'' -e "s@$PACKAGE_OLD@$PACKAGE_NEW@g" {} +
 
-          # GitHub actions
-          sed -i "s/$ARTIFACT_NAME_OLD/$ARTIFACT_NAME_NEW/g" .github/workflows/callable.publish-javadoc.yml
-          
           # README from template
           mv -f .github/template/README.md README.md
           rm -Rf .github/template/
