@@ -18,6 +18,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
       - name: Checkout create new empty or checkout branch 'gh-pages'
         run: |
+          git fetch origin gh-pages || true
           git checkout gh-pages || git switch --orphan gh-pages
 
       - name: Conclude javadoc version and set env
