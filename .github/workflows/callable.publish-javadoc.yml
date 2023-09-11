@@ -14,8 +14,11 @@ jobs:
       - name: Checkout project sources
         uses: actions/checkout@v4
         with:
-          ref: gh-pages
+          ref: main
           token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Checkout create new empty or checkout branch 'gh-pages'
+        run: |
+          git switch --orphan gh-pages || git checkout gh-pages
 
       - name: Conclude javadoc version and set env
         run: |
@@ -38,13 +41,24 @@ jobs:
           GITHUB_REPOSITORY_NAME: ${{ github.event.repository.name }}
         run: |
           mkdir -p javadoc
-          rm javadoc/index.html
+          rm javadoc/index.html || true
           touch javadoc/index.html
           
-          #curl "$GH_API_CONTENTS_URL" | jq '.[].name' -r
-          versions=( $(curl "$GH_API_CONTENTS_URL" | jq -r "[.[] | select( .type == \"dir\" ) | .name] + [\"$PUBLISH_VERSION\"] | unique | .[]") )
+          response=$(curl -s -w "%{http_code}" $GH_API_CONTENTS_URL)
+          http_code=$(tail -n1 <<< "$response")  # get the last line
+          content=$(sed '$ d' <<< "$response")   # get all but the last line which contains the status code
           
-          echo "versions:"
+          if [[ "$http_code" == 200 ]]; then
+            echo "Success"
+            versions=( $(echo "$content" | jq -r "[.[] | select( .type == \"dir\" ) | .name] + [\"$PUBLISH_VERSION\"] | unique | .[]") )
+          else
+            echo "Fail"
+            echo "$http_code"
+            echo "$content"
+            versions=("$PUBLISH_VERSION")
+          fi
+          
+          echo "javadoc versions:"
           for value in "${versions[@]}"
           do
             echo "- $value"
@@ -87,7 +101,7 @@ jobs:
       # Push changes
       - name: Push changes
         run: |
-          git push
+          git push --set-upstream origin gh-pages
 
   deploy_javadoc:
     name: Build & deploy
