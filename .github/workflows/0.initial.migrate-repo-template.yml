@@ -28,8 +28,6 @@ jobs:
   migrate_repo_template:
     name: Run Migration
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     if: github.repository != 'thriving-dev/java-library-template'
     steps:
 
