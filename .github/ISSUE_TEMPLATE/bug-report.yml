@@ -1,0 +1,43 @@
+name: "🐞 Bug report"
+description: Create a report to help us improve
+labels: ["pending triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for taking the time to fill out this bug report!
+        
+        Please carefully read the contribution docs before creating a bug report
+        👉 https://github.com/thriving-dev/java-library-template/blob/main/CONTRIBUTING.md
+  - type: textarea
+    id: bug-description
+    attributes:
+      label: Describe the bug
+      description: A clear and concise description of what the bug is. What is the current behaviour vs. what do you expect to happen? If you intend to submit a PR for this issue, tell us in the description. Thanks!
+      placeholder: Bug description
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Library version(s) affected
+      description: What library version did you experience this bug with? Which versions are affected (when known)?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Please describe how we can reproduce the behavior.
+  - type: textarea
+    id: additonal
+    attributes:
+      label: Additional context, environment
+      description: If applicable, add any other context about the problem here. This could also include technical context and environment information such as e.g. OS, Java version, language.
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs
+      description: |
+        Optional if provided reproduction. Please try not to insert an image but copy paste the log text.
+      render: shell-script

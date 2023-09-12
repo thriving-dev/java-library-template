@@ -7,3 +7,7 @@
 [![Javadoc](https://img.shields.io/badge/JavaDoc-Online-green)](https://thriving-dev.github.io/java-library-template/javadoc/)
 
 Java library template • Gradle • GitHub Actions CI/CD to build, release & publish to Maven Central • Renovate • Trivy Scan • Issue & PR Templates
+
+### Credits
+- inspired by https://github.com/cortinico/kotlin-android-template
+- PR & issue templates copied / adapted from https://github.com/nuxt/nuxt
