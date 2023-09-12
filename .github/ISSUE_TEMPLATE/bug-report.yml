@@ -17,18 +17,18 @@ body:
       placeholder: Bug description
     validations:
       required: true
+  - type: input
+    id: version
+    attributes:
+      label: Library version(s) affected
+      description: What library version did you experience this bug with? Which versions are affected (when known)?
+    validations:
+      required: true
   - type: textarea
     id: reproduce
     attributes:
       label: Steps to reproduce
       description: Please describe how we can reproduce the behavior.
-  - type: input
-    id: version
-    attributes:
-      label: Library version(s)
-      description: What library version did you experience this bug with? Which versions are affected (when known)?
-    validations:
-      required: true
   - type: textarea
     id: additonal
     attributes:
