@@ -5,9 +5,55 @@ on:
   workflow_call:
 
 jobs:
-  deploy_basics:
+  build_package_javadoc:
     name: Build & deploy
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout project sources
+        uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'corretto'
+          java-version: '17'
+          cache: 'gradle'
+      - uses: gradle/wrapper-validation-action@v1
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2.8.0
+
+      - name: Run build (incl. test)
+        run: gradle javadoc
+
+      - name: Conclude javadoc version and set env
+        run: |
+          if [[ "$GITHUB_REF" == "refs/heads/main" || "$GITHUB_REF" == "refs/heads/master" ]]; then
+            echo "PUBLISH_VERSION=current" >> $GITHUB_ENV
+          else
+            echo "PUBLISH_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+          fi
+
+      - name: Conclude library name and set env
+        run: echo "LIBRARY_NAME=$(grep -o '^rootProject.name.*' settings.gradle.kts | sed -e 's/rootProject.name.*"\(.*\)"/\1/')" >> $GITHUB_ENV
+
+      - name: zip javadoc folder\
+        env:
+          LIBRARY_NAME: ${{ env.LIBRARY_NAME }}
+        run: |
+          cd "$LIBRARY_NAME/build/docs/javadoc"
+          zip -r ../../../../javadoc.zip .
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: javadoc
+          path: javadoc.zip
+
+  deploy_javadoc:
+    name: Build & deploy
+    runs-on: ubuntu-latest
+    needs: build_package_javadoc
     permissions:
       contents: write
     steps:
@@ -16,7 +62,7 @@ jobs:
         with:
           ref: main
           token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Checkout create new empty or checkout branch 'gh-pages'
+      - name: Checkout or create empty branch 'gh-pages'
         run: |
           git fetch origin gh-pages || true
           git checkout gh-pages || git switch --orphan gh-pages
@@ -35,29 +81,30 @@ jobs:
         run: |
           echo "<!DOCTYPE html><html lang=en><meta content=\"text/html; charset=utf-8\"http-equiv=Content-Type><meta content=\"index redirect\"name=description><link href=/$GITHUB_REPOSITORY_NAME/javadoc/ rel=canonical><link href=stylesheet.css rel=stylesheet title=Style><script>window.location.replace(\"/$GITHUB_REPOSITORY_NAME/javadoc/\")</script><noscript><meta content=0;/$GITHUB_REPOSITORY_NAME/javadoc/ http-equiv=Refresh></noscript><main role=main><noscript><p>JavaScript is disabled on your browser.</p></noscript><p><a href=/$GITHUB_REPOSITORY_NAME/javadoc/ >/$GITHUB_REPOSITORY_NAME/javadoc/</a></main>" > index.html
 
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v3
+        with:
+          name: javadoc
+
+      - name: unzip javadoc folder
+        env:
+          PUBLISH_VERSION: ${{ env.PUBLISH_VERSION }}
+        run: |
+          mkdir -p javadoc
+          rm -Rf "javadoc/$PUBLISH_VERSION" || true
+          unzip -d "javadoc/$PUBLISH_VERSION" javadoc.zip
+          rm javadoc.zip
+
       - name: Create javadoc index.html listing versions
         env:
           PUBLISH_VERSION: ${{ env.PUBLISH_VERSION }}
-          GH_API_CONTENTS_URL: https://api.github.com/repos/${{ github.repository }}/contents/javadoc?ref=gh-pages
           GITHUB_REPOSITORY_NAME: ${{ github.event.repository.name }}
         run: |
           mkdir -p javadoc
           rm javadoc/index.html || true
           touch javadoc/index.html
           
-          response=$(curl -s -w "%{http_code}" $GH_API_CONTENTS_URL)
-          http_code=$(tail -n1 <<< "$response")  # get the last line
-          content=$(sed '$ d' <<< "$response")   # get all but the last line which contains the status code
-          
-          if [[ "$http_code" == 200 ]]; then
-            echo "Success"
-            versions=( $(echo "$content" | jq -r "[.[] | select( .type == \"dir\" ) | .name] + [\"$PUBLISH_VERSION\"] | unique | .[]") )
-          else
-            echo "Fail"
-            echo "$http_code"
-            echo "$content"
-            versions=("$PUBLISH_VERSION")
-          fi
+          versions=( $(cd javadoc && find . -maxdepth 1 -type d | jq -srR 'split("\n") | unique | .[][2:] | select(length > 0)') )
           
           echo "javadoc versions:"
           for value in "${versions[@]}"
@@ -104,44 +151,3 @@ jobs:
         run: |
           git push --set-upstream origin gh-pages
 
-  deploy_javadoc:
-    name: Build & deploy
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    needs: deploy_basics
-
-    steps:
-      - name: Checkout project sources
-        uses: actions/checkout@v4
-
-      - uses: actions/setup-java@v3
-        with:
-          distribution: 'corretto'
-          java-version: '17'
-          cache: 'gradle'
-      - uses: gradle/wrapper-validation-action@v1
-      - name: Setup Gradle
-        uses: gradle/gradle-build-action@v2.8.0
-
-      - name: Run build (incl. test)
-        run: gradle javadoc
-
-      - name: Conclude javadoc version and set env
-        run: |
-          if [[ "$GITHUB_REF" == "refs/heads/main" || "$GITHUB_REF" == "refs/heads/master" ]]; then
-            echo "PUBLISH_VERSION=current" >> $GITHUB_ENV
-          else
-            echo "PUBLISH_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
-          fi
-
-      - name: Conclude library name and set env
-        run: echo "LIBRARY_NAME=$(grep -o '^rootProject.name.*' settings.gradle.kts | sed -e 's/rootProject.name.*"\(.*\)"/\1/')" >> $GITHUB_ENV
-
-      - name: Deploy to GitHub Page 🚀 with Gradle
-        uses: JamesIves/github-pages-deploy-action@v4.4.3
-        with:
-          branch: gh-pages
-          clean: true
-          folder: ${{ env.LIBRARY_NAME }}/build/docs/javadoc
-          target-folder: javadoc/${{ env.PUBLISH_VERSION }}
