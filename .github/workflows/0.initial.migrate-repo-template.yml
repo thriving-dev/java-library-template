@@ -128,6 +128,11 @@ jobs:
           sed -i "s@$GITHUB_REPOSITORY_OLD@$GITHUB_REPOSITORY@g" CONTRIBUTING.md
           sed -i "s@$ARTIFACT_NAME_OLD@$GITHUB_REPOSITORY_NAME@g" CONTRIBUTING.md
           
+          # ISSUE_TEMPLATEs
+          sed -i "s@$GITHUB_REPOSITORY_OLD@$GITHUB_REPOSITORY@g" .github/ISSUE_TEMPLATE/bug-report.yml
+          sed -i "s@$GITHUB_REPOSITORY_OLD@$GITHUB_REPOSITORY@g" .github/ISSUE_TEMPLATE/config.yml
+          sed -i "s@$GITHUB_REPOSITORY_OLD@$GITHUB_REPOSITORY@g" .github/ISSUE_TEMPLATE/feature-request.yml
+          
           # CODE_OF_CONDUCT
           sed -i "s/info@thriving.dev/$INPUT_EMAIL/g" CODE_OF_CONDUCT.md
           
