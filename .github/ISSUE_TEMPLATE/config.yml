@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: 💬 Discussions
+    url: https://github.com/thriving-dev/java-library-template/discussions
+    about: Use discussions if you have another issue, an idea for improvement or for asking questions.
