@@ -4,7 +4,7 @@ on:
 
 jobs:
   publish:
-    name: Publish to Maven Central
+    name: gradle publish (Maven Central)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout project sources

@@ -42,12 +42,12 @@ jobs:
       || inputs.type == '...no release'
 
   integration_test:
-    name: Run integration tests
+    name: Integration tests
     uses: ./.github/workflows/callable.integration-test.yml
     needs: build
 
   gradle_release:
-    name: Create artifact release
+    name: Create release
     uses: ./.github/workflows/callable.gradle-release.yml
     secrets: inherit
     with:
@@ -58,7 +58,7 @@ jobs:
       && inputs.type != '...no release'
 
   publish_sonatype:
-    name: Publish to Maven Central (Sonatype)
+    name: Publish artifact (Maven Central)
     uses: ./.github/workflows/callable.publish-sonatype.yml
     secrets: inherit
     needs: integration_test
