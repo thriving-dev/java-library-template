@@ -6,7 +6,7 @@ on:
 
 jobs:
   build_package_javadoc:
-    name: Build & deploy
+    name: Generate javadoc artifact
     runs-on: ubuntu-latest
     permissions:
       contents: write
