@@ -78,5 +78,7 @@ jobs:
     uses: ./.github/workflows/callable.publish-javadoc.yml
     needs: integration_test
     if: |
-      github.ref == 'refs/heads/main' 
-      || github.ref_type == 'tag' 
+      (
+        github.ref == 'refs/heads/main'
+        && inputs.type == '...no release'
+      ) || github.ref_type == 'tag' 
