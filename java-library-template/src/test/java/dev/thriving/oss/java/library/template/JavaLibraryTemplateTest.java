@@ -17,4 +17,29 @@ class JavaLibraryTemplateTest {
         // then
         assertEquals("hElLo wOrLd!!!", output);
     }
+
+    @Test
+    void toFunkyCaseBroken() {
+        // given
+        String input = "hello world!!!";
+
+        // when
+        String output = JavaLibraryTemplate.toFunkyCase(input);
+
+        // then
+        assertEquals("hello world!!!", output);
+    }
+
+    @Test
+    @org.junit.jupiter.api.Disabled
+    void toFunkyCaseDisabled() {
+        // given
+        String input = "hello world!!!";
+
+        // when
+        String output = JavaLibraryTemplate.toFunkyCase(input);
+
+        // then
+        assertEquals("hElLo wOrLd!!!", output);
+    }
 }
