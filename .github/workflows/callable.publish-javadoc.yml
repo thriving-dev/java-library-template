@@ -38,7 +38,7 @@ jobs:
       - name: Conclude library name and set env
         run: echo "LIBRARY_NAME=$(grep -o '^rootProject.name.*' settings.gradle.kts | sed -e 's/rootProject.name.*"\(.*\)"/\1/')" >> $GITHUB_ENV
 
-      - name: zip javadoc folder\
+      - name: zip javadoc folder
         env:
           LIBRARY_NAME: ${{ env.LIBRARY_NAME }}
         run: |
@@ -48,7 +48,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: javadoc
+          name: javadoc.zip
           path: javadoc.zip
 
   deploy_javadoc:
@@ -85,7 +85,7 @@ jobs:
       - name: Download artifact from build job
         uses: actions/download-artifact@v3
         with:
-          name: javadoc
+          name: javadoc.zip
 
       - name: unzip javadoc folder
         env:
