@@ -150,17 +150,17 @@ Scans are triggered
 1. with each main CI/CD pipeline run
 2. Scheduled (weekly) ([ref](.github/workflows/2.scheduled.code-analysis.yml))
 
-<img width="800" alt="Preview of a critical CVE listed in the GitHub Security > Code scanning overview page" src="https://github.com/thriving-dev/java-library-template/assets/10864443/2980ba31-32c4-4bd8-9adf-4d852806614b">
+<img width="800" alt="Preview of a critical CVE listed in the GitHub Security 'Code scanning' overview page" src="https://github.com/thriving-dev/java-library-template/assets/10864443/2980ba31-32c4-4bd8-9adf-4d852806614b">
 
 Please refer to [official GitHub documentation](https://docs.github.com/en/code-security/code-scanning/introduction-to-code-scanning/about-code-scanning) for more details.
 
 ## Automated Dependency Updates with Renovate
 ### Dependency Dashboard
 
-![image](https://github.com/thriving-dev/java-library-template/assets/10864443/3300d418-8dee-4071-96df-dc53882315fd)
+<img width="800" src="https://github.com/thriving-dev/java-library-template/assets/10864443/3300d418-8dee-4071-96df-dc53882315fd">
 
 ### PRs created by renovate bot
-![image](https://github.com/thriving-dev/java-library-template/assets/10864443/bcd03d8f-f620-4344-85d8-5f29d28be030)
+<img width="800" src="https://github.com/thriving-dev/java-library-template/assets/10864443/bcd03d8f-f620-4344-85d8-5f29d28be030">
 
 ### Prerequisites: Enable & Configure Renovate
 This template ships with a prepared [renovate.json](renovate.json). 
