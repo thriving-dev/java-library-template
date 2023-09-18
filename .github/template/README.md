@@ -6,22 +6,21 @@
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
 [![Javadoc](https://img.shields.io/badge/JavaDoc-Online-green)](https://%REPO_OWNER%.github.io/%REPO_NAME%/javadoc/)
 
-All set up, enjoy the template.
+Automated migration completed, enjoy the template.
 
 ## Features
 - 🥷 One-click **automated initial project migration workflow** (GitHub Action)
 - **Java 21** (corretto) 🤝 **Gradle Kotlin DSL**, version catalog
-- **GitHub Actions CI/CD pipeline** 👷
+- **GitHub Actions CI/CD pipeline**, 👷 efficient build pipeline, caching, integration tests, test report & failed test annotations
 - 🚀 **One-click release** process + **publish** to **Maven Central**
 - **Security & 🚦 Vulnerability scan** with **[trivy](https://github.com/aquasecurity/trivy)** & GitHub CodeQL Analysis
 - **Automated dependency updates** with **[Renovate](https://github.com/renovatebot/renovate)** 🤖
-- Efficient build pipeline, integration tests, test report & failed test annotations
-- Javadoc deployed with GitHub Pages
-- Open Source Community ready (Code of Conduct, Contribution guidelines, Issue & PR Templates)
+- **Javadoc** deployed with **GitHub Pages**
+- Open Source **Community ready** (Code of Conduct, Contribution guidelines, Issue & PR Templates)
 
 ## Quick Start
 1. [Use this template](https://github.com/thriving-dev/java-library-template/generate) to create your own repository
-2. Manually trigger '[!! INITIAL: Migrate Repo Template !!](https://github.com/%REPO_OWNER%/%REPO_NAME%/actions/workflows/0.initial.migrate-repo-template.yml)' action
+2. Manually trigger '**!! INITIAL: Migrate Repo Template !!**' action
    > ℹ️ This workflow automatically 'migrates' all files in your new repository, updating the **gradle project group**, **module name**, **package names**, and **all references** to the repo `<owner>/<name>`.
    >
    > - Head over to **Actions** (1)
@@ -40,12 +39,12 @@ All set up, enjoy the template.
    * Install & configure renovate app ([instructions](#prerequisites-enable--configure-renovate))
 
 ## Project Structure
-The project template consists of three top level folders
+The project template consists of three top level _folders_:
 * `.github/`: Defines the Github Actions CI tasks and templates for new pull requests, issues, etc.
 * `gradle/`: Contains Gradle Configuration files such as the Gradle [Version Catalog](https://docs.gradle.org/current/userguide/platforms.html) and the Gradle Wrapper.
 * `%ARTIFACT_NAME%/`: The library source code (gradle sub-project).
 
-In addition, following files are worth highlighting:
+In addition, following _files_ are worth highlighting:
 * `gradle/libs.versions.toml`: A [conventional file](https://docs.gradle.org/current/userguide/platforms.html#sub:conventional-dependencies-toml) to declare a version catalog.
 * `settings.gradle.kts`: The multi-project Gradle settings file. Here are all sub-projects defined.
 * `gradle.properties`: Holds the library version, needed & maintained by the CI/CD pipeline [release process](#release-process).
