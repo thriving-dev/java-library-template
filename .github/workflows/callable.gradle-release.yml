@@ -14,7 +14,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Validate 'Release Type' param
-        id: validate_type
         env:
           TYPE: ${{ inputs.type }}
         run: |
@@ -32,19 +31,18 @@ jobs:
         with:
           distribution: 'corretto'
           java-version: '17'
-          cache: 'gradle'
       - uses: gradle/wrapper-validation-action@v1
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2.8.0
+        with:
+          cache-read-only: true
 
       - name: Get current version
-        id: get_version
         run: |
           source gradle.properties
           echo "current_version=${version}" >> $GITHUB_ENV
 
       - name: Determine version type
-        id: bump_version
         env:
           TYPE: ${{ inputs.type }}
           VERSION: ${{ env.current_version }}
@@ -69,7 +67,6 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
       - name: Run 'gradle release'
-        id: gradle_release
         run: |
           echo "Type: ${{ inputs.type }}"
           echo "Current version: ${{ env.current_version }}"
