@@ -52,7 +52,7 @@ In addition, following _files_ are worth highlighting:
 * `**/build.gradle.kts`: Gradle build file    
 
 ## CI/CD Pipeline
-The heart of this template is the 'Main GitHub Actions CI/CD Pipeline'.
+The heart of this template is the 'Main GitHub Actions CI/CD Pipeline'. See it in [Actions](https://github.com/thriving-dev/java-library-template/actions/workflows/1.pipeline.yml) (👻).
 
 ![image](https://github.com/thriving-dev/java-library-template/assets/10864443/8e5436c3-f807-4617-9e77-6d21e9dfb7c2)
 
