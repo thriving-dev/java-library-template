@@ -117,7 +117,7 @@ The new version is automatically published to Maven Central! 🚀
 ### Prerequisites: PAT provided as `CI_GITHUB_TOKEN`
 The CI/CD 'gradle-release' job expects a secret by the name `CI_GITHUB_TOKEN` that holds a PAT (Personal Access Token) with permission to push tags as part of the release process. 
 
-To create a new access token, please head over to the [Developer settings](/settings/tokens?type=beta) and enroll for the new 'Fine-grained personal access tokens'.
+To create a new access token, please head over to the [Developer settings](https://github.com/settings/tokens?type=beta) and enroll for the new 'Fine-grained personal access tokens'.
 Next, click on the button 'Generate new token' and create a token for the target _Resource owner_, with access to your project and the following 'Repository Permissions' 
 * **Contents:** **Read** and **Write** access to code
 * **Metadata:** **Read** access to metadata
