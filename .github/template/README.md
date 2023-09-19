@@ -10,7 +10,7 @@ Automated migration completed, enjoy the template.
 
 ## Features
 - 🥷 One-click **automated initial project migration workflow** (GitHub Action)
-- **Java 21** (corretto) 🤝 **Gradle Kotlin DSL**, version catalog
+- **Java 17** (corretto) 🤝 **Gradle Kotlin DSL**, version catalog
 - **GitHub Actions CI/CD pipeline**, 👷 efficient build pipeline, caching, integration tests, test report & failed test annotations
 - 🚀 **One-click release** process + **publish** to **Maven Central**
 - **Security & 🚦 Vulnerability scan** with **[trivy](https://github.com/aquasecurity/trivy)** & GitHub CodeQL Analysis
