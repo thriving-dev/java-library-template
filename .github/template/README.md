@@ -90,7 +90,7 @@ The GH actions job [callable.publish-sonatype.yml](.github/workflows/callable.pu
 | `GPG_SIGNING_KEY`        | The GPG private key to sign your artifacts (in ascii-armored format). You can obtain it with `gpg --armor --export-secret-keys <your@email.here>` or you can create one key online on [pgpkeygen.com](https://pgpkeygen.com). |
 | `GPG_SIGNING_PASSPHRASE` | The passphrase for unlocking the secret key. (you picked it when creating the key).                                                                                                                                           |
 
-Please define the secrets via your repository settings. ([Settings > Security > Secrets and variables > Actions](settings/secrets/actions))
+Please define the secrets via your repository settings. ([Settings > Security > Secrets and variables > Actions](https://github.com/%REPO_OWNER%/%REPO_NAME%/settings/secrets/actions))
 <img width="800" alt="Preview of Javadoc published to GitHub Pages by the CI/CD pipeline" src="https://github.com/thriving-dev/java-library-template/assets/10864443/e6cf928c-6665-43fc-9506-c29d210b18de">
 
 ## Release Process
