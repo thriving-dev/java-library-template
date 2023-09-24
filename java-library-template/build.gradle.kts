@@ -13,6 +13,10 @@ object Meta {
     const val developerOrganizationUrl = "https://thriving.dev"
 }
 
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+}
+
 plugins {
     // Apply the java-library plugin for API and implementation separation.
     `java-library`
