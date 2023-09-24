@@ -10,8 +10,8 @@ release_plugin = "3.0.2"
 snakeyaml = { module = "org.yaml:snakeyaml", version.ref = "snakeyaml" }
 junit = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit" }
 assertj = { module = "org.assertj:assertj-core", version.ref = "assertj" }
-testcontainers = { module = "org.yaml:snakeyaml", version.ref = "testcontainers" }
-testcontainers_junit5 = { module = "org.yaml:snakeyaml", version.ref = "testcontainers" }
+testcontainers = { module = "org.testcontainers:testcontainers", version.ref = "testcontainers" }
+testcontainers_junit5 = { module = "org.testcontainers:junit-jupiter", version.ref = "testcontainers" }
 
 [bundles]
 testcontainers_junit = ["testcontainers", "testcontainers_junit5"]
