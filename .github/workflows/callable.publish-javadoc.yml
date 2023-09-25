@@ -1,4 +1,4 @@
-name: Deploy Javadoc
+name: Publish javadoc (GitHub Pages)
 
 on:
   workflow_dispatch:
@@ -6,7 +6,7 @@ on:
 
 jobs:
   build_package_javadoc:
-    name: Generate javadoc
+    name: Generate Javadoc
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -62,7 +62,8 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: main
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.CI_GITHUB_TOKEN || secrets.GITHUB_TOKEN }}
+
       - name: Checkout or create empty branch 'gh-pages'
         run: |
           git fetch origin gh-pages || true
