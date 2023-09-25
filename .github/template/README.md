@@ -55,7 +55,6 @@ Automated migration completed, enjoy the template.
    * Update _Maven Publication_ details [here](%ARTIFACT_NAME%/build.gradle.kts#L6-L13)
    * [Configure GitHub Pages](#prerequisites-configure-github-pages) to deploy branch 'gh-pages' (Javadoc)
    * Add secrets required for [publishing to Maven Central](#prerequisites-sonatype-credentials--gpg-signing-key)
-   * Create and provide a PAT required for [release pipeline](#prerequisites-pat-provided-as-ci_github_token)
    * Install & configure renovate app ([instructions](#prerequisites-enable--configure-renovate))
 
 ## Project Structure
