@@ -35,10 +35,9 @@ Automated migration completed, enjoy the template.
 
       <img width="680" alt="image" src="https://github.com/thriving-dev/java-library-template/assets/10864443/ff00fec5-36b5-46b3-9fae-83504aa00199">
 
+   4. Provide your new PAT either as an Organisation secret or a Repository secret with the name `CI_GITHUB_TOKEN`.
 
-Provide your new PAT either as an Organisation secret or a Repository secret with the name `CI_GITHUB_TOKEN`.
-
-   <img width="800" src="https://github.com/thriving-dev/java-library-template/assets/10864443/9a9224ef-ef58-4c59-9025-5d83ac5981b9">
+      <img width="800" src="https://github.com/thriving-dev/java-library-template/assets/10864443/9a9224ef-ef58-4c59-9025-5d83ac5981b9">
 
 3. Trigger the '**!! INITIAL: Migrate Repo Template !!**' workflow
 
