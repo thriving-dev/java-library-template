@@ -20,17 +20,38 @@ Automated migration completed, enjoy the template.
 
 ## Quick Start
 1. [Use this template](https://github.com/thriving-dev/java-library-template/generate) to create your own repository
-2. Manually trigger '**!! INITIAL: Migrate Repo Template !!**' action
-   > ℹ️ This workflow automatically 'migrates' all files in your new repository, updating the **gradle project group**, **module name**, **package names**, and **all references** to the repo `<owner>/<name>`.
-   >
-   > - Head over to **Actions** (1)
-   > - on the left-hand side select the topmost workflow '**!! INITIAL: Migrate Repo Template !!**' (2)
-   > - click the **Run workflow** button (3)
-   > - **fill out** the form & **start** the pipeline (4)(5)
-   > ___
-   > ![image](https://github.com/thriving-dev/java-library-template/assets/10864443/41a380d5-e521-4050-9296-9f5bee4088e6)
+2. Create & provide a PAT (Personal Access Token) for the CI/CD pipeline
 
-3. One-off tasks
+   Three workflows commit and push changes to the repository and therefore require additional permissions. ('migrate-repo-template', 'publish-javadoc', 'gradle-release')
+
+   The jobs expect a secret by the name `CI_GITHUB_TOKEN` that holds a PAT with _write_ permission for _Content_.
+
+   To create a new access token, the following steps are required (ref [GitHub documentation](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-fine-grained-personal-access-token)):
+   1. If the new repo owner is an organisation, **enrol** the organisation for '**Fine-grained personal access tokens**'. In the organisation ['Settings > Third-party Access > Personal access tokens'](https://github.com/organizations/%REPO_OWNER%/settings/personal-access-tokens).
+   2. Head to the [Developer settings](https://github.com/settings/tokens?type=beta) and **enrol** your personal account for the new '**Fine-grained personal access tokens**'. (That's a one-off for your account and you might already have done this before)
+   3. Next, click on the button '**Generate new token**' and create a token for the target _**Resource owner**_, with access to your project and the following '**Repository Permissions**'
+      * **Contents:** **Read** and **Write** access to code
+      * **Metadata:** **Read** access to metadata
+
+      <img width="680" alt="image" src="https://github.com/thriving-dev/java-library-template/assets/10864443/ff00fec5-36b5-46b3-9fae-83504aa00199">
+
+
+Provide your new PAT either as an Organisation secret or a Repository secret with the name `CI_GITHUB_TOKEN`.
+
+   <img width="800" src="https://github.com/thriving-dev/java-library-template/assets/10864443/9a9224ef-ef58-4c59-9025-5d83ac5981b9">
+
+3. Trigger the '**!! INITIAL: Migrate Repo Template !!**' workflow
+
+   ℹ️ This workflow automatically 'migrates' all files in your new repository, updating the **gradle project group**, **module name**, **package names**, and **all references** to the repo `<owner>/<name>`.
+
+   - Head over to **Actions** (1)
+   - on the left-hand side select the topmost workflow '**!! INITIAL: Migrate Repo Template !!**' (2)
+   - click the **Run workflow** button (3)
+   - **fill out** the form & **start** the pipeline (4)(5)
+
+   ![image](https://github.com/thriving-dev/java-library-template/assets/10864443/41a380d5-e521-4050-9296-9f5bee4088e6)
+
+4. Final one-off tasks
    * Choose & update the LICENSE, [here](LICENSE)
    * Update _Maven Publication_ details [here](%ARTIFACT_NAME%/build.gradle.kts#L6-L13)
    * [Configure GitHub Pages](#prerequisites-configure-github-pages) to deploy branch 'gh-pages' (Javadoc)
@@ -39,19 +60,19 @@ Automated migration completed, enjoy the template.
    * Install & configure renovate app ([instructions](#prerequisites-enable--configure-renovate))
 
 ## Project Structure
-The project template consists of three top level _folders_:
-* `.github/`: Defines the Github Actions CI tasks and templates for new pull requests, issues, etc.
+The project template consists of three top-level _folders_:
+* `.github/`: Defines the GitHub Actions CI tasks and templates for new pull requests, issues, etc.
 * `gradle/`: Contains Gradle Configuration files such as the Gradle [Version Catalog](https://docs.gradle.org/current/userguide/platforms.html) and the Gradle Wrapper.
-* `%ARTIFACT_NAME%/`: The library source code (gradle sub-project).
+* `%ARTIFACT_NAME%/`: The library source code (Gradle sub-project).
 
 In addition, following _files_ are worth highlighting:
 * `gradle/libs.versions.toml`: A [conventional file](https://docs.gradle.org/current/userguide/platforms.html#sub:conventional-dependencies-toml) to declare a version catalog.
-* `settings.gradle.kts`: The multi-project Gradle settings file. Here are all sub-projects defined.
+* `settings.gradle.kts`: The multi-project Gradle settings file. Here are all the sub-projects defined.
 * `gradle.properties`: Holds the library version, needed & maintained by the CI/CD pipeline [release process](#release-process).
 * `**/build.gradle.kts`: Gradle build file
 
 ## CI/CD Pipeline
-The heart of this template is the 'Main GitHub Actions CI/CD Pipeline'.
+The heart of this template is the ['Main GitHub Actions CI/CD Pipeline'](https://github.com/%REPO_OWNER%/%REPO_NAME%/actions/workflows/1.pipeline.yml).
 
 ![image](https://github.com/thriving-dev/java-library-template/assets/10864443/8e5436c3-f807-4617-9e77-6d21e9dfb7c2)
 
@@ -61,14 +82,14 @@ Based on the context (trigger, ref, input arguments) it meets different use case
    Runs for active PRs - as well as part of all subsequent listed use cases.
 2. **Latest**. 'Check', publish SNAPSHOT version to Maven Central and Javadoc (GitHub Pages).   
    Runs on pushes to the main branch.
-3. **Release Process**. 'Check', executes (major|minor|patch) release process via Gradle plugin.   
+3. **Release Process**. 'Check', executes (major|minor|patch) release process via the Gradle plugin.   
    Manually triggered workflow via GitHub UI/API.
 3. **Library Release**. 'Check', publish RELEASE version to Maven Central and Javadoc (GitHub Pages).   
    Runs for pushed tags.
 
 ## Publish to Maven Central
 ### Automated Process
-The maven publish process is fully automated and does not require manual action.
+The Maven publish process is fully automated and does not require manual action.
 - The _main_ branch (per process definition) always is set to the next [SNAPSHOT version](gradle.properties) and is published to the Sonatype snapshot repository with each main CI/CD pipeline run. The pipeline runs e.g. when a PR is merged, but can also be triggered manually.
 - Release deployment happens when a new tag is pushed to GitHub. (Part of the [release process](#release-process))
 
@@ -80,8 +101,8 @@ In order to deploy your components to OSSRH with Gradle, you have to meet the [r
 
 > ℹ️ The publish process uses [io.github.gradle-nexus.publish-plugin](https://plugins.gradle.org/plugin/io.github.gradle-nexus.publish-plugin) under the hood.
 
-The gradle project as well as the CI/CD pipeline is already fully prepared for the publish process.
-The GH actions job [callable.publish-sonatype.yml](.github/workflows/callable.publish-sonatype.yml) requires following Secrets:
+The gradle project as well as the CI/CD pipeline is already fully prepared for the publishing process.
+The GH actions job [callable.publish-sonatype.yml](.github/workflows/callable.publish-sonatype.yml) requires the following Secrets:
 
 | Secret name              | Value                                                                                                                                                                                                                         |
 |--------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------| 
@@ -95,7 +116,7 @@ Please define the secrets via your repository settings. ([Settings > Security > 
 
 ## Release Process
 ### Creating a Release
-To release a new version via the CI/CD Pipeline, please follow instructions below.
+To release a new version via the CI/CD Pipeline, please follow the instructions below.
 - Navigate to Actions (1)
 - \> Main Pipeline (2)
 - Click 'Run workflow' button (3)
@@ -116,16 +137,7 @@ The new version is automatically published to Maven Central! 🚀
 ### Prerequisites: PAT provided as `CI_GITHUB_TOKEN`
 The CI/CD 'gradle-release' job expects a secret by the name `CI_GITHUB_TOKEN` that holds a PAT (Personal Access Token) with permission to push tags as part of the release process.
 
-To create a new access token, please head over to the [Developer settings](/settings/tokens?type=beta) and enroll for the new 'Fine-grained personal access tokens'.
-Next, click on the button 'Generate new token' and create a token for the target _Resource owner_, with access to your project and the following 'Repository Permissions'
-* **Contents:** **Read** and **Write** access to code
-* **Metadata:** **Read** access to metadata
-
-Please refer to the official [GitHub documentation](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-fine-grained-personal-access-token).
-
-Provide your new PAT either as an Organisation secret or Repository secret.
-
-<img width="680" src="https://github.com/thriving-dev/java-library-template/assets/10864443/9a9224ef-ef58-4c59-9025-5d83ac5981b9">
+If you have been following the Quick Start guide you should already have this configured. Please refer to ['Quick Start' step 2](#quick-start).
 
 ## Javadoc
 ### Use
