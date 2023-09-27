@@ -80,5 +80,5 @@ jobs:
     if: |
       (
         github.ref == 'refs/heads/main'
-        && inputs.type == '...no release'
+        && ( inputs.type == '' || inputs.type == '...no release' )
       ) || github.ref_type == 'tag' 
