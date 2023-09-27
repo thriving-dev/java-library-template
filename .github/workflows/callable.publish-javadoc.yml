@@ -24,7 +24,7 @@ jobs:
         with:
           cache-read-only: true
 
-      - name: Run build (incl. test)
+      - name: Generate javadoc (gradle)
         run: ./gradlew javadoc
 
       - name: Conclude javadoc version and set env
