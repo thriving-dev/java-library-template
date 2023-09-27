@@ -35,9 +35,9 @@ jobs:
         env:
           INPUT_PARAM: ${{ inputs.group }}
         run: |
-          if [[ ! $INPUT_PARAM =~ ^[a-z0-9]([._]?[a-z0-9]+)*$ ]]; then
+          if [[ ! $INPUT_PARAM =~ ^[a-z0-9]([._-]?[a-z0-9]+)*$ ]]; then
             echo "Invalid value for 'group' param: $INPUT_PARAM"
-            echo "Must be all lowercase, no whitespaces, no special characters but underscore and dots, no consecutive dots."
+            echo "Must be all lowercase, no whitespaces, no special characters but '-', '_' and dots, no consecutive dots."
             exit 1
           fi
       - name: Validate input param 'name'
@@ -55,7 +55,7 @@ jobs:
         run: |
           if [[ ! $INPUT_PARAM =~ ^[a-z_]([._]?[a-z_][a-z0-9_]*)*$ ]]; then
             echo "Invalid value for 'package': $INPUT_PARAM"
-            echo "Must conform to all lowercase, no whitespaces, no special characters but underscore, separated by dots, no consecutive dots, no element beginning with a number."
+            echo "Must conform to all lowercase, no whitespaces, no special characters but '_', separated by dots, no consecutive dots, no element beginning with a number."
             exit 1
           fi
 
