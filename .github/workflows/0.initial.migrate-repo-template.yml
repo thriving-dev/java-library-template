@@ -35,7 +35,7 @@ jobs:
         env:
           INPUT_PARAM: ${{ inputs.group }}
         run: |
-          if [[ ! $INPUT_PARAM =~ ^[a-z0-9-]([._]?[a-z0-9-]+)*$ ]]; then
+          if [[ ! $INPUT_PARAM =~ ^[a-z0-9]([._-]?[a-z0-9]+)*$ ]]; then
             echo "Invalid value for 'group' param: $INPUT_PARAM"
             echo "Must be all lowercase, no whitespaces, no special characters but '-', '_' and dots, no consecutive dots."
             exit 1
