@@ -9,7 +9,7 @@
 
 _TLDR:_ Java Library GitHub Template Repository
 
-[<img src="https://github-production-user-asset-6210df.s3.amazonaws.com/10864443/270873951-641a38c4-10e7-4b75-8dc0-1b5d473f07b3.svg" width="20"> Introducing 'java-library-template' in 60s - YouTube](https://www.youtube.com/watch?v=nXs7hSV6ris&list=PL1tfxqbktkFYK5zYjfHxt4wFOus5R9Y3g "Introducing 'java-library-template' in 60s - YouTube")   
+[<img src="https://github-production-user-asset-6210df.s3.amazonaws.com/10864443/270873951-641a38c4-10e7-4b75-8dc0-1b5d473f07b3.svg" width="20"> Introducing 'java-library-template' in 60s - YouTube](https://www.youtube.com/watch?v=nXs7hSV6ris&list=PL1tfxqbktkFYK5zYjfHxt4wFOus5R9Y3g)
 
 
 ## Features
@@ -24,6 +24,7 @@ _TLDR:_ Java Library GitHub Template Repository
 
 
 ## Quick Start
+**Demo on YouTube**: [<img src="https://github-production-user-asset-6210df.s3.amazonaws.com/10864443/270873951-641a38c4-10e7-4b75-8dc0-1b5d473f07b3.svg" width="20"> java-library-template 1/7: Getting started (generate from; create PAT, one-click migrate)](https://www.youtube.com/watch?v=lDfg9D0A-nA&list=PL1tfxqbktkFYK5zYjfHxt4wFOus5R9Y3g)
 1. [Use this template](https://github.com/thriving-dev/java-library-template/generate) to create your own repository
 2. Create & provide a PAT (Personal Access Token) for the CI/CD pipeline
 
