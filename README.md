@@ -9,6 +9,9 @@
 
 _TLDR:_ Java Library GitHub Template Repository
 
+[<img src="https://github-production-user-asset-6210df.s3.amazonaws.com/10864443/270873951-641a38c4-10e7-4b75-8dc0-1b5d473f07b3.svg" width="20"> Introducing 'java-library-template' in 60s - YouTube](https://www.youtube.com/watch?v=nXs7hSV6ris&list=PL1tfxqbktkFYK5zYjfHxt4wFOus5R9Y3g "Introducing 'java-library-template' in 60s - YouTube")   
+
+
 ## Features
 - 🥷 One-click **automated initial project migration workflow** (GitHub Action)
 - **Java 21** (corretto) 🤝 **Gradle Kotlin DSL**, version catalog
@@ -18,6 +21,7 @@ _TLDR:_ Java Library GitHub Template Repository
 - **Automated dependency updates** with **[Renovate](https://github.com/renovatebot/renovate)** 🤖
 - **Javadoc** deployed with **GitHub Pages**
 - Open Source **Community ready** (Code of Conduct, Contribution guidelines, Issue & PR Templates)
+
 
 ## Quick Start
 1. [Use this template](https://github.com/thriving-dev/java-library-template/generate) to create your own repository
