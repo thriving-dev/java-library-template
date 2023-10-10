@@ -42,9 +42,6 @@ val intTestImplementation by configurations.getting {
 configurations["intTestRuntimeOnly"].extendsFrom(configurations.runtimeOnly.get())
 
 dependencies {
-    // TODO: remove again after verifying 'trivy scan' & 'renovate' integration works
-    implementation(libs.snakeyaml)
-
     testImplementation(libs.junit)
 
     intTestImplementation(libs.junit)
