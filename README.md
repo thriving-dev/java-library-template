@@ -170,6 +170,11 @@ Scans are triggered
 Please refer to [official GitHub documentation](https://docs.github.com/en/code-security/code-scanning/introduction-to-code-scanning/about-code-scanning) for more details.
 
 ## Automated Dependency Updates with Renovate
+
+ℹ️ Renovate (RenovateBot) is a software tool that automates the process of keeping software dependencies up-to-date by scanning code repositories, identifying outdated dependencies, and generating automated pull requests to update them.
+
+It’s Open Source and Community-Driven, supports a wide range of programming languages and package managers, and integrates with GitHub & Gitlab as well as other popular CI/CD systems.
+
 ### Dependency Dashboard
 
 <img width="800" src="https://github.com/thriving-dev/java-library-template/assets/10864443/3300d418-8dee-4071-96df-dc53882315fd">
