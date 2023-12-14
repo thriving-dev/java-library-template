@@ -14,13 +14,13 @@ jobs:
       - name: Checkout project sources
         uses: actions/checkout@v4
 
-      - uses: actions/setup-java@v3
+      - uses: actions/setup-java@v4
         with:
           distribution: 'corretto'
           java-version: '21'
       - uses: gradle/wrapper-validation-action@v1
       - name: Setup Gradle
-        uses: gradle/gradle-build-action@v2.10.0
+        uses: gradle/gradle-build-action@v2.11.0
         with:
           cache-read-only: true
 
@@ -46,7 +46,7 @@ jobs:
           zip -r ../../../../javadoc.zip .
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: javadoc.zip
           path: javadoc.zip
@@ -84,7 +84,7 @@ jobs:
           echo "<!DOCTYPE html><html lang=en><meta content=\"text/html; charset=utf-8\"http-equiv=Content-Type><meta content=\"index redirect\"name=description><link href=/$GITHUB_REPOSITORY_NAME/javadoc/ rel=canonical><link href=stylesheet.css rel=stylesheet title=Style><script>window.location.replace(\"/$GITHUB_REPOSITORY_NAME/javadoc/\")</script><noscript><meta content=0;/$GITHUB_REPOSITORY_NAME/javadoc/ http-equiv=Refresh></noscript><main role=main><noscript><p>JavaScript is disabled on your browser.</p></noscript><p><a href=/$GITHUB_REPOSITORY_NAME/javadoc/ >/$GITHUB_REPOSITORY_NAME/javadoc/</a></main>" > index.html
 
       - name: Download artifact from build job
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: javadoc.zip
 
