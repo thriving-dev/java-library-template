@@ -9,7 +9,8 @@
 
 _TLDR:_ Java Library GitHub Template Repository
 
-[<img src="https://github-production-user-asset-6210df.s3.amazonaws.com/10864443/270873951-641a38c4-10e7-4b75-8dc0-1b5d473f07b3.svg" width="20"> Introducing 'java-library-template' in 60s - YouTube](https://www.youtube.com/watch?v=nXs7hSV6ris&list=PL1tfxqbktkFYK5zYjfHxt4wFOus5R9Y3g)
+* [<img src="https://github-production-user-asset-6210df.s3.amazonaws.com/10864443/270873951-641a38c4-10e7-4b75-8dc0-1b5d473f07b3.svg" width="20"> Introducing 'java-library-template' in 60s - YouTube](https://www.youtube.com/watch?v=nXs7hSV6ris&list=PL1tfxqbktkFYK5zYjfHxt4wFOus5R9Y3g)   
+* https://thriving.dev/blog/java-library-development-get-started-quickly-with-java-library-template
 
 
 ## Features
