@@ -1,3 +1,13 @@
+import org.gradle.jvm.toolchain.JavaLanguageVersion
+import org.gradle.jvm.toolchain.JvmVendorSpec
+
+plugins {
+    // Apply the java-library plugin for API and implementation separation.
+    `java-library`
+    `maven-publish`
+    signing
+}
+
 group = "dev.thriving.oss"
 
 object Meta {
@@ -14,14 +24,10 @@ object Meta {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_21
-}
-
-plugins {
-    // Apply the java-library plugin for API and implementation separation.
-    `java-library`
-    `maven-publish`
-    signing
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(21))
+        vendor.set(JvmVendorSpec.AMAZON)
+    }
 }
 
 repositories {
