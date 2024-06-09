@@ -25,8 +25,8 @@ object Meta {
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(21))
-        vendor.set(JvmVendorSpec.AMAZON)
+        languageVersion = JavaLanguageVersion.of(21)
+        vendor = JvmVendorSpec.AMAZON
     }
 }
 
