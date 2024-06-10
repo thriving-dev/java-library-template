@@ -39,7 +39,7 @@ jobs:
         with:
           distribution: 'corretto'
           java-version: '21'
-      - uses: gradle/actions/wrapper-validation-action@v3
+      - uses: gradle/actions/wrapper-validation@v3
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3.3.2
         with:
