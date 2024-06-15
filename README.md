@@ -111,8 +111,8 @@ The GH actions job [callable.publish-sonatype.yml](.github/workflows/callable.pu
 
 | Secret name              | Value                                                                                                                                                                                                                         |
 |--------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------| 
-| `OSSRH_USERNAME`         | The username of your OSSRH account.                                                                                                                                                                                           |
-| `OSSRH_PASSWORD`         | The password of your OSSRH account.                                                                                                                                                                                           |
+| `OSSRH_USERNAME`         | ~The username of your OSSRH account.~ The first part of your OSSRH (Sonatype) user access token.                                                                                                                              |
+| `OSSRH_PASSWORD`         | ~The password of your OSSRH account.~ The second part of your OSSRH (Sonatype) user access token.                                                                                                                             |
 | `GPG_SIGNING_KEY`        | The GPG private key to sign your artifacts (in ascii-armored format). You can obtain it with `gpg --armor --export-secret-keys <your@email.here>` or you can create one key online on [pgpkeygen.com](https://pgpkeygen.com). |
 | `GPG_SIGNING_PASSPHRASE` | The passphrase for unlocking the secret key. (you picked it when creating the key).                                                                                                                                           |
 
