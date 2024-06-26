@@ -23,7 +23,7 @@ jobs:
           java-version: '21'
       - uses: gradle/actions/wrapper-validation@v3
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v3.3.2
+        uses: gradle/actions/setup-gradle@v3.4.2
         with:
           cache-read-only: true
 
