@@ -1,7 +1,7 @@
 [versions]
 junit = "5.10.3"
 assertj = "3.26.3"
-testcontainers = "1.19.8"
+testcontainers = "1.20.0"
 publish_plugin = "2.0.0"
 release_plugin = "3.0.2"
 
