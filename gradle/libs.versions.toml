@@ -1,9 +1,9 @@
 [versions]
-junit = "5.10.3"
-assertj = "3.26.3"
-testcontainers = "1.20.0"
+junit = "5.13.4"
+assertj = "3.27.5"
+testcontainers = "1.21.3"
 publish_plugin = "2.0.0"
-release_plugin = "3.0.2"
+release_plugin = "3.1.0"
 
 [libraries]
 junit = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit" }
