@@ -1,8 +1,8 @@
 group = "dev.thriving.oss"
 
 object Meta {
-    const val release = "https://s01.oss.sonatype.org/service/local/"
-    const val snapshot = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+    const val release = "https://ossrh-staging-api.central.sonatype.com/service/local/"
+    const val snapshot = "https://central.sonatype.com/repository/maven-snapshots/"
     const val desc = "OSS GitHub Java Library Template Repository"
     const val license = "Apache-2.0"
     const val licenseUrl = "https://opensource.org/licenses/Apache-2.0"
