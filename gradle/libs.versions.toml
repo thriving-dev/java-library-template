@@ -1,12 +1,14 @@
 [versions]
-junit = "5.10.3"
-assertj = "3.26.3"
-testcontainers = "1.20.0"
+junit = "5.13.4"
+assertj = "3.27.5"
+testcontainers = "1.21.3"
 publish_plugin = "2.0.0"
-release_plugin = "3.0.2"
+release_plugin = "3.1.0"
 
 [libraries]
-junit = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit" }
+junit_bom = { module = "org.junit:junit-bom", version.ref = "junit" }
+junit_jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit" }
+junit_platform = { module = "org.junit.platform:junit-platform-launcher" }
 assertj = { module = "org.assertj:assertj-core", version.ref = "assertj" }
 testcontainers = { module = "org.testcontainers:testcontainers", version.ref = "testcontainers" }
 testcontainers_junit5 = { module = "org.testcontainers:junit-jupiter", version.ref = "testcontainers" }
