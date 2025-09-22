@@ -39,14 +39,22 @@ val intTestImplementation by configurations.getting {
     extendsFrom(configurations.implementation.get())
 }
 
+val intTestRuntimeOnly by configurations.getting {
+    extendsFrom(configurations.runtimeOnly.get())
+}
+
 configurations["intTestRuntimeOnly"].extendsFrom(configurations.runtimeOnly.get())
 
 dependencies {
-    testImplementation(libs.junit)
+    testImplementation(platform(libs.junit.bom))
+    testImplementation(libs.junit.jupiter)
+    testRuntimeOnly(libs.junit.platform)
 
-    intTestImplementation(libs.junit)
+    intTestImplementation(platform(libs.junit.bom))
+    intTestImplementation(libs.junit.jupiter)
     intTestImplementation(libs.bundles.testcontainers.junit)
     intTestImplementation(libs.assertj)
+    intTestRuntimeOnly(libs.junit.platform)
 }
 
 val intTest = task<Test>("intTest") {
@@ -60,7 +68,7 @@ val intTest = task<Test>("intTest") {
     useJUnitPlatform()
 
     testLogging {
-        events("passed")
+        events("passed", "skipped", "failed")
     }
 }
 
