@@ -60,7 +60,7 @@ jobs:
           fi
 
       - name: Checkout project sources
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           ref: main
           token: ${{ secrets.CI_GITHUB_TOKEN || secrets.GITHUB_TOKEN }}
