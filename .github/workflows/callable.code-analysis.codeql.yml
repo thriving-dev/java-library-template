@@ -24,7 +24,7 @@ jobs:
 
       # Initializes the CodeQL tools for scanning.
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v3
+        uses: github/codeql-action/init@v4
         with:
           languages: java
           # If you wish to specify custom queries, you can do so here or in a config file.
@@ -40,7 +40,7 @@ jobs:
           distribution: 'corretto'
           java-version: '21'
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4.4.3
+        uses: gradle/actions/setup-gradle@v5.0.0
         with:
           cache-read-only: true
       - name: Run build with Gradle Wrapper
@@ -50,6 +50,6 @@ jobs:
           rm -Rf .gradle
 
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v3
+        uses: github/codeql-action/analyze@v4
         with:
           category: "/language:${{matrix.language}}"
