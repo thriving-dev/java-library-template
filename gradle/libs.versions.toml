@@ -1,6 +1,6 @@
 [versions]
-junit = "5.13.4"
-assertj = "3.27.5"
+junit = "6.0.0"
+assertj = "3.27.6"
 testcontainers = "1.21.3"
 publish_plugin = "2.0.0"
 release_plugin = "3.1.0"
